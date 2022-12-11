@@ -1,0 +1,183 @@
+Comments in mysql :
+
+1)Single line comment ->  --TEXT
+2)Multiline comment ->  /*TEXT*/
+
+Logical Operators :
+AND,OR,NOT,BETWEEN,NOT BETWEEN,IN,NOT IN,ANY,LIKE,EXISTS,SOME,ALL
+/*To display all the databases*/
+
+show databases;
+
+/*To choose a particular database among available databases*/
+
+use employee_details1;
+
+/*To display all the tables under current database*/
+
+show tables;
+
+/*To insert tuples into employee relation*/
+
+insert into employee values(113,'ADARSH',17500,'PUNE',3062.5,'ACCOUNTING',5);
+insert into employee values(114,'DEEPAK',15000,'MANGLORE',2625,'SALES',7);
+insert into employee values(115,'ESHWAR',33000,'BENGALURU',2000,'TECH',2.5);
+
+/*To select all the columns of table employee*/
+
+select * from employee;
+
+/*To choose emp_id,emp_name columns from table employee*/
+
+select emp_id,emp_name 
+from employee;
+
+/*UPDATE*/
+
+update employee 
+set emp_salary=12500
+where emp_city in ('manglore') and dept not in ('tech') and emp_id>100;
+
+update employee
+set emp_salary=20000
+where emp_city='manglore' and dept='tech' and emp_id>100;
+
+/*DELETE*/
+
+delete from employee
+where emp_id=104;
+
+/*Aggregate functions*/
+
+select count(emp_city) as no_of_staff
+from employee
+where emp_city='bengaluru';
+
+select sum(emp_salary) as total_human_capital
+from employee;
+
+select avg(emp_salary) as avg_salary 
+from employee;
+
+select min(emp_salary) as min_salary
+from employee;
+
+select max(emp_salary) as max_salary
+from employee;
+
+/*AND,OR,NOT*/
+
+select emp_id,emp_name,emp_salary,dept
+from employee 
+where emp_salary<16000 and emp_city='hyderabad';
+
+select emp_id,emp_name,emp_salary,dept
+from employee 
+where emp_salary<15000 or emp_city='manglore';
+
+select emp_id,emp_name,emp_salary
+from employee
+where not emp_city='bengaluru';
+
+/*BETWEEN,NOT BETWEEN*/
+
+select * from employee 
+where emp_salary between 24000 and 35000;
+
+select * from employee
+where emp_salary not between 15000 and 35000;
+
+/*IN,NOT IN*/
+
+select emp_id,emp_name,emp_salary,dept
+from employee
+where emp_id in (101,105,112);
+
+select emp_id,emp_name
+from employee
+where emp_city not in ('bengaluru','hyderabad');
+
+/*DISTICT*/
+
+select distinct dept
+from employee;
+
+select distinct emp_city
+from employee;
+
+/*ORDER BY*/
+
+select * from employee
+order by emp_name asc;
+
+select * from employee
+order by emp_salary desc;
+
+/*LIMIT*/
+/*Limit will pick only first n tuples from the table that satisfies the 
+required condition*/
+
+select * from employee 
+limit 4
+
+select * from employee
+where emp_city='bengaluru'
+limit 3;
+
+/*LIKE*/
+
+LIKE-> It is used for pattern matching 
+
+/*selects all the tuples from relation employee whose name starts 
+with s*/
+select * from employee 
+where emp_name like 's%';
+
+/*selects all the tuples from relation employee whose name starts 
+with s and ends with h*/
+select * from employee
+where emp_name like 's%h';
+
+/*selects all the tuples from relation employee whose name  
+ends with k*/
+select * from employee
+where emp_name like '%k';
+
+/*selects all the tuples from relation employee whose name has 
+atleast 7charcters(no of underscore in b/w quotes+characters 
+if any)*/
+select * from employee 
+where emp_name like '_______%';
+
+/*selects all the tuples from relation employee whose name starts 
+with r and has atleast 5 charcters(no of underscore in b/w quotes+characters
+ if any(here it includes r))*/
+select * from employee
+where emp_name like 'r____%';
+
+/*selects all the tuples from relation employee whose name contains 
+'ar' in any position but should be consecutive*/
+
+select * from employee
+where emp_name like '%ar%';
+
+
+/*GROUP BY*/
+
+/*First we will form groups of distict dept display no of emp in each dept
+and find out sum and avg salaries of each dept and display them including 
+name of the dept and order by is used to display it in ascending order of
+emp_salary*/
+
+select count(emp_id) as no_of_employees,sum(emp_salary),avg(emp_salary),dept
+from employee 
+group by dept 
+order by avg(emp_salary) asc;
+
+/*First we will form groups of distict emp_city ,display no of emp in each city
+and find out avg salaries of each city and display them*/
+
+select count(emp_id) as no_of_employees,avg(emp_salary) as avg_salary,emp_city
+from employee 
+group by emp_city 
+order by count(emp_id)
